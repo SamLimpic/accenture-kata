@@ -1,0 +1,13 @@
+{
+  "devDependencies": {
+    "@types/jest": "^26.0.24",
+    "jest": "^27.0.6"
+  },
+  "scripts": {
+    "kata": "run-func app.js kata",
+    "test": "jest"
+  },
+  "dependencies": {
+    "run-func": "^1.0.5"
+  }
+}
