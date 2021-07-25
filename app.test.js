@@ -1,4 +1,4 @@
-const { write, checkCasing, sharpen } = require('./app.js')
+const { write, checkCasing, sharpen, erase, edit } = require('./app.js')
 const { Pencil } = require('./Pencil.js')
 
 const string = "This is Ripley, last survivor of Nostromo, signing off."
@@ -48,7 +48,7 @@ describe("Variables can be instantiated and assigned correct values", () => {
     })
 })
 
-describe("Write function successfully records Text to Paper according to Pencil Point Degredation", () => {
+describe("Write function successfully records Text to Paper according to Point value", () => {
     describe("Point is degraded by correct value", () => {
         let char
         let pencil
@@ -161,32 +161,129 @@ describe("Write function successfully records Text to Paper according to Pencil 
 })
 
 describe("Sharpen function returns Point to its original value according to Length value", () => {
-    describe("Pencil can be Sharpened", () => {
-        let point
-        let length
-        let pencil
-        test("Pencil can be Sharpened if its Length is > 0", () => {
-            point = 30
-            length = 1
-            pencil = new Pencil(0, length)
-            sharpen(point, pencil)
-            expect(pencil.point).toBe(30)
-        })
-        test("Pencil can be Sharpened multiple times if its initial Length is > 1", () => {
-            point = 30
-            length = 2
-            pencil = new Pencil(0, length)
-            sharpen(point, pencil)
-            expect(pencil.point).toBe(30)
-            sharpen(point, pencil)
-            expect(pencil.point).toBe(30)
-        })
-        test("Pencil cannot be Sharpened if its Length is 0", () => {
-            point = 30
-            length = 0
-            pencil = new Pencil(0, length)
-            sharpen(point, pencil)
-            expect(pencil.point).toBe(0)
-        })
+    let point
+    let length
+    let pencil
+    test("Pencil can be Sharpened if its Length is > 0", () => {
+        point = 30
+        length = 1
+        pencil = new Pencil(0, length)
+        sharpen(point, pencil)
+        expect(pencil.point).toBe(30)
+    })
+    test("Pencil cannot be Sharpened if its Length is 0", () => {
+        point = 30
+        length = 0
+        pencil = new Pencil(0, length)
+        sharpen(point, pencil)
+        expect(pencil.point).toBe(0)
+    })
+    test("Pencil can be Sharpened multiple times if its Length remains > 0", () => {
+        point = 30
+        length = 3
+        pencil = new Pencil(0, length)
+        sharpen(point, pencil)
+        expect(pencil.point).toBe(30)
+        expect(pencil.length).toBe(2)
+        sharpen(point, pencil)
+        expect(pencil.point).toBe(30)
+        expect(pencil.length).toBe(1)
+        sharpen(point, pencil)
+        expect(pencil.point).toBe(30)
+        expect(pencil.length).toBe(0)
+    })
+})
+
+describe("Erase function removes the last occurrence of a String from the Paper according to Eraser value", () => {
+    let text = "Here kitty, kitty, kitty. Meaow. Here Jonesy."
+    let pencil
+    let paper
+    let str
+    let eraser
+    test("Erase replaces last occurrence of String with empty Spaces", () => {
+        pencil = new Pencil()
+        paper = text
+        str = "kitty"
+        expect(erase(str, paper, pencil)).toBe("Here kitty, kitty,      . Meaow. Here Jonesy.")
+    })
+    test("Eraser value degrades by 1 for every character replaced", () => {
+        pencil = new Pencil()
+        pencil.eraser = 6
+        paper = text
+        str = "kitty"
+        eraser = pencil.eraser - str.length
+        expect(erase(str, paper, pencil)).toBe("Here kitty, kitty,      . Meaow. Here Jonesy.")
+        expect(pencil.eraser).toBe(eraser)
+    })
+    test("Erase replaces characters of String in reverse until Eraser value is 0", () => {
+        pencil = new Pencil()
+        pencil.eraser = 3
+        paper = text
+        str = "kitty"
+        expect(erase(str, paper, pencil)).toBe("Here kitty, kitty, ki   . Meaow. Here Jonesy.")
+        expect(pencil.eraser).toBe(0)
+    })
+    test("Erase does not remove String from Paper if Eraser value is 0", () => {
+        pencil = new Pencil()
+        pencil.eraser = 0
+        paper = text
+        str = "kitty"
+        expect(erase(str, paper, pencil)).toBe(text)
+    })
+    test("Erase replaces the next-to-last occurrence of String upon multiple uses if Eraser value remains > 0", () => {
+        pencil = new Pencil()
+        paper = text
+        str = "kitty"
+        eraser = pencil.eraser - str.length
+        expect(erase(str, paper, pencil)).toBe("Here kitty, kitty,      . Meaow. Here Jonesy.")
+        expect(pencil.eraser).toBe(eraser)
+        paper = "Here kitty, kitty,      . Meaow. Here Jonesy."
+        eraser = eraser - str.length
+        expect(erase(str, paper, pencil)).toBe("Here kitty,      ,      . Meaow. Here Jonesy.")
+        expect(pencil.eraser).toBe(eraser)
+        paper = "Here kitty,      ,      . Meaow. Here Jonesy."
+        eraser = eraser - str.length
+        expect(erase(str, paper, pencil)).toBe("Here      ,      ,      . Meaow. Here Jonesy.")
+        expect(pencil.eraser).toBe(eraser)
+    })
+})
+
+describe("Edit function replaces Erased Text with a new String according to Point value", () => {
+    let text = "Here kitty, kitty,      . Meaow. Here Jonesy."
+    let pencil
+    let paper
+    let str
+    let point
+    test("Edit replaces Erased Text with new String", () => {
+        pencil = new Pencil()
+        paper = text
+        str = "Alien"
+        expect(edit(str, paper, pencil)).toBe("Here kitty, kitty, Alien. Meaow. Here Jonesy.")
+    })
+    test("Point value degrades by 1 for every character replaced until Point value is 0", () => {
+        pencil = new Pencil()
+        pencil.point = 4
+        paper = text
+        str = "Alien"
+        expect(edit(str, paper, pencil)).toBe("Here kitty, kitty, Alie . Meaow. Here Jonesy.")
+        expect(pencil.point).toBe(0)
+    })
+    test("Edit replaces existing characters with '@' if length of String exceeds length of empty Spaces and Point value remains > 0", () => {
+        pencil = new Pencil()
+        paper = text
+        str = "Xenomorph"
+        expect(edit(str, paper, pencil)).toBe("Here kitty, kitty, Xenom@r@@aow. Here Jonesy.")
+    })
+    test("Edit replaces next-available blank Text with String if Edit is run multuple times and Point value remains > 0", () => {
+        text = "Here      ,      ,      . Meaow. Here Jonesy."
+        pencil = new Pencil()
+        paper = text
+        str = "Alien"
+        expect(edit(str, paper, pencil)).toBe("Here Alien,      ,      . Meaow. Here Jonesy.")
+        paper = "Here Alien,      ,      . Meaow. Here Jonesy."
+        expect(edit(str, paper, pencil)).toBe("Here Alien, Alien,      . Meaow. Here Jonesy.")
+        paper = "Here Alien, Alien,      . Meaow. Here Jonesy."
+        expect(edit(str, paper, pencil)).toBe("Here Alien, Alien, Alien. Meaow. Here Jonesy.")
+        paper = "Here Alien, Alien, Alien. Meaow. Here Jonesy."
     })
 })

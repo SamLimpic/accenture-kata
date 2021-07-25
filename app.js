@@ -2,14 +2,16 @@ const { Pencil } = require('./Pencil.js')
 
 const kata = () => {
     let pencil = new Pencil()
+    let point = pencil.point
     let text = "This is Ripley, last survivor of Nostromo, signing off."
     let paper = ""
+    let str = ""
 
     console.log(`
 *Initial value of Text:`, `
     "${text}"
     `, `
-*Initial values of Pencil:`, `
+*Initial value of Pencil:`, `
     pencil = {
         point: ${pencil.point},
         length: ${pencil.length},
@@ -17,7 +19,35 @@ const kata = () => {
     }
 `, `
 ----- RUNNING KATA -----`)
+
     write(pencil, paper, text)
+    paper = "This is Ripley, last survivor of "
+    console.log(`
+*Text written to Paper:`, `
+        "${paper}"
+`, `
+*Current value of Pencil:`, `
+    pencil = {
+        point: ${pencil.point},
+        length: ${pencil.length},
+        eraser: ${pencil.eraser}
+    }
+`, `
+----- SHARPENING PENCIL -----`)
+
+    sharpen(point, pencil)
+
+    console.log(`
+*Value of Sharpened Pencil:`, `
+    pencil = {
+        point: ${pencil.point},
+        length: ${pencil.length},
+        eraser: ${pencil.eraser}
+    }
+`)
+    paper = "Here kitty, kitty, kitty. Meaow. Here Jonesy."
+    str = "kitty"
+    erase(str, paper, pencil)
 }
 
 const write = (pencil, paper, text) => {
@@ -33,7 +63,6 @@ const write = (pencil, paper, text) => {
         }
         paper += char
     }
-    // logResults(pencil, paper, text)
     return paper
 }
 
@@ -49,28 +78,50 @@ const checkCasing = (char, pencil) => {
     }
 }
 
-const logResults = (pencil, paper) => {
-    console.log(`
-*Text written to Paper:`, `
-    "${paper}"
-`, `
-*Final values of Pencil`, `
-    pencil = {
-        sharp: ${pencil.sharp},
-        point: ${pencil.point},
-        length: ${pencil.length},
-        eraser: ${pencil.eraser}
-    }
-`)
-}
-
 const sharpen = (point, pencil) => {
     if (pencil.length > 0) {
         pencil.point = point
         pencil.length--
-        pencil.sharp = true
     }
     return pencil
 }
 
-module.exports = { kata, write, checkCasing, sharpen }
+const erase = (string, paper, pencil) => {
+    if (pencil.eraser > 0) {
+        let index = paper.lastIndexOf(string)
+        let arr = paper.split("")
+        for (let i = index + string.length - 1; i > index - 1; i--) {
+            if (pencil.eraser === 0) {
+                break
+            }
+            arr[i] = " "
+            pencil.eraser--
+        }
+        paper = arr.join("")
+    }
+    return paper
+}
+
+const edit = (string, paper, pencil) => {
+    if (pencil.point > 0) {
+        let index = paper.indexOf("  ") + 1
+        let arr = paper.split("")
+        let j = 0
+        for (let i = index; i < index + string.length; i++) {
+            if (pencil.point === 0) {
+                break
+            }
+            if (arr[i] === " ") {
+                arr[i] = string[j]
+            } else {
+                arr[i] = "@"
+            }
+            j++
+            pencil.point--
+        }
+        paper = arr.join("")
+    }
+    return paper
+}
+
+module.exports = { kata, write, checkCasing, sharpen, erase, edit }
