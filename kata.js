@@ -1,13 +1,12 @@
 const { Writer } = require('./classes/Writer.js')
 
-function viewKata(text = "This is Ripley, last survivor of Nostromo, signing off.", point, length, eraser) {
+function viewKata(text = "This is Ripley... last survivor of the Nostromo... signing off.", point, length, eraser) {
     let writer = new Writer(point, length, eraser)
     let string
 
     writer.write(text)
     writer.sharpen()
     writer.paper = "Here kitty, kitty, kitty. Meaow. Here Jonesy."
-    string = "kitty"
     writer.erase(string)
     writer.erase(string)
     string = "Alien"
@@ -16,9 +15,9 @@ function viewKata(text = "This is Ripley, last survivor of Nostromo, signing off
     writer.edit(string)
 }
 
-const runKata = (text = "This is Ripley, last survivor of Nostromo, signing off.", point, length, eraser) => {
+const runKata = (text = "This is Ripley... last survivor of the Nostromo... signing off.", point, length, eraser) => {
     let writer = new Writer(point, length, eraser)
-    let string
+    let string = "kitty"
 
     console.log(`
 ----- RUNNING KATA -----
@@ -33,7 +32,6 @@ const runKata = (text = "This is Ripley, last survivor of Nostromo, signing off.
 `, `
 ----- WRITING TEXT -----
 `)
-
     writer.write(text)
 
     console.log(`*Text to be written:`, `
@@ -49,7 +47,6 @@ const runKata = (text = "This is Ripley, last survivor of Nostromo, signing off.
 `, `
 ----- SHARPENING PENCIL -----
 `)
-
     writer.sharpen()
 
     console.log(`*Value of Sharpened Pencil:`, `
@@ -61,9 +58,7 @@ const runKata = (text = "This is Ripley, last survivor of Nostromo, signing off.
 `, `
 ----- ERASING TEXT -----
 `)
-
     writer.paper = "Here kitty, kitty, kitty. Meaow. Here Jonesy."
-    string = "kitty"
 
     console.log(`*Modified value of Paper:`, `
     "${writer.paper}"
@@ -71,7 +66,6 @@ const runKata = (text = "This is Ripley, last survivor of Nostromo, signing off.
 *Text to be Erased:`, `
     "${string}"
 `)
-
     writer.erase(string)
 
     console.log(`*Current value of Stationery:`, `
@@ -82,8 +76,8 @@ const runKata = (text = "This is Ripley, last survivor of Nostromo, signing off.
     },
     paper = "${writer.paper}"
 `, `
------ ERASING TEXT -----`)
-
+----- ERASING TEXT -----
+`)
     writer.erase(string)
     string = "Alien"
 
@@ -100,7 +94,6 @@ const runKata = (text = "This is Ripley, last survivor of Nostromo, signing off.
 *Text to be added:`, `
     "${string}"
 `)
-
     writer.edit(string)
     string = "Xenomorph"
 
@@ -117,7 +110,6 @@ const runKata = (text = "This is Ripley, last survivor of Nostromo, signing off.
 *Text to be added:`, `
     "${string}"
 `)
-
     writer.edit(string)
 
     console.log(`*Current value of Stationery:`, `
