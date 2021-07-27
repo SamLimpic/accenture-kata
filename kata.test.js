@@ -1,19 +1,20 @@
-const { write, checkCasing, sharpen, erase, edit } = require('./app.js')
-const { Pencil } = require('./Pencil.js')
+const { Stationery } = require('./classes/Stationery.js')
+const { Writer } = require('./classes/Writer.js')
 
-const string = "This is Ripley, last survivor of Nostromo, signing off."
+let text = "This is Ripley, last survivor of Nostromo, signing off."
+let writer
+let pencil
+let paper
+let string
 
-// describe(" ", () => {
-//     test(" ", () => {
-//         expect().toBe()
-//     })
-// })
+beforeEach(() => {
+    writer = new Writer()
+    pencil = writer.pencil
+    paper = writer.paper
+})
 
 describe("Variables can be instantiated and assigned correct values", () => {
     describe("Variables can be instantiated", () => {
-        let pencil = new Pencil()
-        let text = string
-        let paper = ""
         test("Pencil can be instantiated", () => {
             expect(pencil.point).toBeTruthy()
             expect(pencil.eraser).toBeTruthy()

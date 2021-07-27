@@ -4,7 +4,7 @@
     "jest": "^27.0.6"
   },
   "scripts": {
-    "kata": "run-func app.js kata",
+    "kata": "run-func kata.js runKata",
     "test": "jest"
   },
   "dependencies": {
