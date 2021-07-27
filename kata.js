@@ -20,7 +20,8 @@ const runKata = (text = "This is Ripley, last survivor of Nostromo, signing off.
     let writer = new Writer(point, length, eraser)
     let string
 
-    console.log(`----- RUNNING KATA -----
+    console.log(`
+----- RUNNING KATA -----
 `, `
 *Initial value of Stationery:`, `
     pencil = {
@@ -30,12 +31,12 @@ const runKata = (text = "This is Ripley, last survivor of Nostromo, signing off.
     },
     paper = "${writer.paper}"
 `, `
------ WRITING TEXT -----`)
+----- WRITING TEXT -----
+`)
 
     writer.write(text)
 
-    console.log(`
-*Text to be written:`, `
+    console.log(`*Text to be written:`, `
     "${text}"
 `, `
 *Current value of Stationery:`, `
@@ -46,25 +47,25 @@ const runKata = (text = "This is Ripley, last survivor of Nostromo, signing off.
     },
     paper = "${writer.paper}"
 `, `
------ SHARPENING PENCIL -----`)
+----- SHARPENING PENCIL -----
+`)
 
     writer.sharpen()
 
-    console.log(`
-*Value of Sharpened Pencil:`, `
+    console.log(`*Value of Sharpened Pencil:`, `
     pencil = {
         point: ${writer.pencil.point},
         length: ${writer.pencil.length},
         eraser: ${writer.pencil.eraser}
     }
 `, `
------ ERASING TEXT -----`)
+----- ERASING TEXT -----
+`)
 
     writer.paper = "Here kitty, kitty, kitty. Meaow. Here Jonesy."
     string = "kitty"
 
-    console.log(`
-*Modified value of Paper:`, `
+    console.log(`*Modified value of Paper:`, `
     "${writer.paper}"
 `, `
 *Text to be Erased:`, `
@@ -73,31 +74,26 @@ const runKata = (text = "This is Ripley, last survivor of Nostromo, signing off.
 
     writer.erase(string)
 
-    console.log(`*Erased Paper:`, `
-    "${writer.paper}"
-`, `
-*Current value of Pencil:`, `
+    console.log(`*Current value of Stationery:`, `
     pencil = {
         point: ${writer.pencil.point},
         length: ${writer.pencil.length},
         eraser: ${writer.pencil.eraser}
-    }
+    },
+    paper = "${writer.paper}"
 `, `
 ----- ERASING TEXT -----`)
 
     writer.erase(string)
     string = "Alien"
 
-    console.log(`
-*Erased Paper:`, `
-    "${writer.paper}"
-`, `
-*Current value of Pencil:`, `
+    console.log(`*Current value of Stationery:`, `
     pencil = {
         point: ${writer.pencil.point},
         length: ${writer.pencil.length},
         eraser: ${writer.pencil.eraser}
-    }
+    },
+    paper = "${writer.paper}"
 `, `
 ----- EDITING TEXT -----
 `, `
@@ -108,15 +104,13 @@ const runKata = (text = "This is Ripley, last survivor of Nostromo, signing off.
     writer.edit(string)
     string = "Xenomorph"
 
-    console.log(`*Edited Paper:`, `
-    "${writer.paper}"
-`, `
-*Current value of Pencil:`, `
+    console.log(`*Current value of Stationery:`, `
     pencil = {
         point: ${writer.pencil.point},
         length: ${writer.pencil.length},
         eraser: ${writer.pencil.eraser}
-    }
+    },
+    paper = "${writer.paper}"
 `, `
 ----- EDITING TEXT -----
 `, `
@@ -126,15 +120,13 @@ const runKata = (text = "This is Ripley, last survivor of Nostromo, signing off.
 
     writer.edit(string)
 
-    console.log(`*Edited Paper:`, `
-    "${writer.paper}"
-`, `
-*Current value of Pencil:`, `
+    console.log(`*Current value of Stationery:`, `
     pencil = {
         point: ${writer.pencil.point},
         length: ${writer.pencil.length},
         eraser: ${writer.pencil.eraser}
-    }
+    },
+    paper = "${writer.paper}"
 `)
 }
 // #region REVIEW REFACTORED

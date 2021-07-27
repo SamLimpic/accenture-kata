@@ -51,7 +51,8 @@ class Writer {
             this.setPoint(0)
             return false
         }
-        return this.setPoint(newPoint)
+        this.setPoint(newPoint)
+        return true
     }
 
     getLength() {
@@ -81,6 +82,7 @@ class Writer {
             }
             this.addToPaper(char)
         })
+        return this.paper
     }
 
     sharpen() {
@@ -88,18 +90,18 @@ class Writer {
             this.setPoint(this.getPointMax())
             this.degradeLength()
         }
+        return this.pencil
     }
 
     erase(word) {
         let paper = this.getPaper()
-        let eraser = this.getEraser()
         let end = paper.lastIndexOf(word)
-        if (end > -1 && eraser > 0) {
+        if (end > -1 && this.getEraser() > 0) {
             end--
             let start = end + word.length
             let erased = paper.split("")
             for (let i = start; i > end; i--) {
-                if (eraser === 0) {
+                if (this.getEraser() === 0) {
                     break
                 }
                 erased[i] = " "
@@ -107,6 +109,7 @@ class Writer {
             }
             this.setPaper(erased.join(""))
         }
+        return this.paper
     }
 
     edit(word) {
@@ -133,6 +136,7 @@ class Writer {
             }
             this.setPaper(edited.join(""))
         }
+        return this.paper
     }
     // #endregion
 }
