@@ -2,13 +2,15 @@ const { Writer } = require('./classes/Writer.js')
 
 function viewKata(text = "This is Ripley... last survivor of the Nostromo... signing off.", point, length, eraser) {
     let writer = new Writer(point, length, eraser)
-    let string
+    let string = "kitty"
 
     writer.write(text)
     writer.sharpen()
+
     writer.paper = "Here kitty, kitty, kitty. Meaow. Here Jonesy."
     writer.erase(string)
     writer.erase(string)
+
     string = "Alien"
     writer.edit(string)
     string = "Xenomorph"
@@ -20,7 +22,8 @@ const runKata = (text = "This is Ripley... last survivor of the Nostromo... sign
     let string = "kitty"
 
     console.log(`
------ RUNNING KATA -----
+---------------------------- RUNNING KATA ----------------------------
+
 `, `
 *Initial value of Stationery:`, `
     pencil = {
@@ -30,33 +33,39 @@ const runKata = (text = "This is Ripley... last survivor of the Nostromo... sign
     },
     paper = "${writer.paper}"
 `, `
------ WRITING TEXT -----
+*Text to be written:`, `
+    "${text}"
+`, `
+
+---------------------------- WRITING TEXT ----------------------------
+
 `)
     writer.write(text)
 
-    console.log(`*Text to be written:`, `
-    "${text}"
-`, `
-*Current value of Stationery:`, `
+    console.log(`*Current value of Stationery:`, `
     pencil = {
-        point: ${writer.pencil.point},
+        point: ${writer.pencil.point} [- POINT DEGREDATION],
         length: ${writer.pencil.length},
         eraser: ${writer.pencil.eraser}
     },
     paper = "${writer.paper}"
 `, `
------ SHARPENING PENCIL -----
+
+-------------------------- SHARPENING PENCIL -------------------------
+
 `)
     writer.sharpen()
 
     console.log(`*Value of Sharpened Pencil:`, `
     pencil = {
-        point: ${writer.pencil.point},
-        length: ${writer.pencil.length},
+        point: ${writer.pencil.point} [POINT RESTORED],
+        length: ${writer.pencil.length} [-1],
         eraser: ${writer.pencil.eraser}
     }
 `, `
------ ERASING TEXT -----
+
+---------------------------- ERASING TEXT ----------------------------
+
 `)
     writer.paper = "Here kitty, kitty, kitty. Meaow. Here Jonesy."
 
@@ -72,11 +81,13 @@ const runKata = (text = "This is Ripley... last survivor of the Nostromo... sign
     pencil = {
         point: ${writer.pencil.point},
         length: ${writer.pencil.length},
-        eraser: ${writer.pencil.eraser}
+        eraser: ${writer.pencil.eraser} [- ERASED STRING]
     },
     paper = "${writer.paper}"
 `, `
------ ERASING TEXT -----
+
+---------------------------- ERASING TEXT ----------------------------
+
 `)
     writer.erase(string)
     string = "Alien"
@@ -85,11 +96,13 @@ const runKata = (text = "This is Ripley... last survivor of the Nostromo... sign
     pencil = {
         point: ${writer.pencil.point},
         length: ${writer.pencil.length},
-        eraser: ${writer.pencil.eraser}
+        eraser: ${writer.pencil.eraser} [- ERASED STRING]
     },
     paper = "${writer.paper}"
 `, `
------ EDITING TEXT -----
+
+---------------------------- EDITING TEXT ----------------------------
+
 `, `
 *Text to be added:`, `
     "${string}"
@@ -99,26 +112,31 @@ const runKata = (text = "This is Ripley... last survivor of the Nostromo... sign
 
     console.log(`*Current value of Stationery:`, `
     pencil = {
-        point: ${writer.pencil.point},
+        point: ${writer.pencil.point} [- POINT DEGREDATION],
         length: ${writer.pencil.length},
         eraser: ${writer.pencil.eraser}
     },
     paper = "${writer.paper}"
 `, `
------ EDITING TEXT -----
+
+---------------------------- EDITING TEXT ----------------------------
+
 `, `
 *Text to be added:`, `
     "${string}"
 `)
     writer.edit(string)
 
-    console.log(`*Current value of Stationery:`, `
+    console.log(`*Final value of Stationery:`, `
     pencil = {
-        point: ${writer.pencil.point},
+        point: ${writer.pencil.point} [- POINT DEGREDATION],
         length: ${writer.pencil.length},
         eraser: ${writer.pencil.eraser}
     },
     paper = "${writer.paper}"
+`, `
+
+--------------------------- KATA COMPLETE ----------------------------
 `)
 }
 // #region REVIEW REFACTORED
