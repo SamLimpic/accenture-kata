@@ -6,6 +6,7 @@ function viewKata(text = "This is Ripley... last survivor of the Nostromo... sig
     let string = "kitty"
 
     writer.write(text)
+
     writer.sharpen()
 
     writer.paper = "Here kitty, kitty, kitty. Meaow. Here Jonesy."
@@ -14,6 +15,7 @@ function viewKata(text = "This is Ripley... last survivor of the Nostromo... sig
 
     string = "Alien"
     writer.edit(string)
+
     string = "Xenomorph"
     writer.edit(string)
 }
