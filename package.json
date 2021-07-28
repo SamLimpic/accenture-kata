@@ -8,6 +8,7 @@
     "test": "jest"
   },
   "dependencies": {
+    "colors": "^1.4.0",
     "run-func": "^1.0.5"
   }
 }

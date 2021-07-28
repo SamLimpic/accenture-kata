@@ -1,4 +1,5 @@
-const { Writer } = require('./classes/Writer.js')
+const { Writer } = require('./Writer.js')
+const colors = require('colors/safe')
 
 function viewKata(text = "This is Ripley... last survivor of the Nostromo... signing off.", point, length, eraser) {
     let writer = new Writer(point, length, eraser)
@@ -22,122 +23,140 @@ const runKata = (text = "This is Ripley... last survivor of the Nostromo... sign
     let string = "kitty"
 
     console.log(`
----------------------------- RUNNING KATA ----------------------------
+${colors.underline("Running Kata")}`)
 
-`, `
-*Initial value of Stationery:`, `
-    pencil = {
-        point: ${writer.pencil.point},
-        length: ${writer.pencil.length},
-        eraser: ${writer.pencil.eraser}
+    console.log(colors.italic("Initial value of Stationery:"))
+
+    console.log(`    ${colors.bold("pencil")} = {
+        point: ${colors.grey(`${writer.pencil.point}`)},
+        length: ${colors.grey(`${writer.pencil.length}`)},
+        eraser: ${colors.grey(`${writer.pencil.eraser}`)}
     },
-    paper = "${writer.paper}"
-`, `
-*Text to be written:`, `
-    "${text}"
-`, `
+    ${colors.bold("paper")} = "${colors.grey(`${writer.paper}`)}"
+`)
 
----------------------------- WRITING TEXT ----------------------------
+    console.log(colors.italic("Text to be written:"))
+
+    console.log(`    "${colors.grey(`${text}`)}"
 
 `)
+
+    console.log(colors.underline("Writing Text"))
+
     writer.write(text)
 
-    console.log(`*Current value of Stationery:`, `
-    pencil = {
-        point: ${writer.pencil.point} [- POINT DEGREDATION],
-        length: ${writer.pencil.length},
-        eraser: ${writer.pencil.eraser}
-    },
-    paper = "${writer.paper}"
-`, `
+    console.log(colors.italic("Current value of Stationery:"))
 
--------------------------- SHARPENING PENCIL -------------------------
+    console.log(`    ${colors.bold("pencil")} = {
+        point: ${colors.red(`${writer.pencil.point} [-50]`)},
+        length: ${colors.grey(`${writer.pencil.length}`)},
+        eraser: ${colors.grey(`${writer.pencil.eraser}`)}
+    },
+    ${colors.bold("paper")} = "${colors.green(`${writer.paper}`)}"
 
 `)
+
+    console.log(colors.underline("Sharpening Pencil"))
+
     writer.sharpen()
 
-    console.log(`*Value of Sharpened Pencil:`, `
-    pencil = {
-        point: ${writer.pencil.point} [POINT RESTORED],
-        length: ${writer.pencil.length} [-1],
-        eraser: ${writer.pencil.eraser}
-    }
-`, `
+    console.log(colors.italic("Value of Sharpened Pencil:"))
 
----------------------------- ERASING TEXT ----------------------------
+    console.log(`    ${colors.bold("pencil")} = {
+        point: ${colors.green(`${writer.pencil.point} [+50]`)},
+        length: ${colors.red(`${writer.pencil.length} [-1]`)},
+        eraser: ${colors.grey(`${writer.pencil.eraser}`)}
+    }
 
 `)
+
+    console.log(colors.underline("Erasing Text"))
+
     writer.paper = "Here kitty, kitty, kitty. Meaow. Here Jonesy."
 
-    console.log(`*Modified value of Paper:`, `
-    "${writer.paper}"
-`, `
-*Text to be Erased:`, `
-    "${string}"
+    console.log(colors.italic("Modified value of Paper:"))
+
+    console.log(`    "${colors.grey(`${writer.paper}`)}"
 `)
+
+    console.log(colors.italic("Text to be Erased:"))
+
+    console.log(`    "${colors.red(`${string}`)}"
+`)
+
     writer.erase(string)
 
-    console.log(`*Current value of Stationery:`, `
-    pencil = {
-        point: ${writer.pencil.point},
-        length: ${writer.pencil.length},
-        eraser: ${writer.pencil.eraser} [- ERASED STRING]
+    console.log(colors.italic("Current value of Stationery:"))
+
+    console.log(`    ${colors.bold("pencil")} = {
+        point: ${colors.grey(`${writer.pencil.point}`)},
+        length: ${colors.grey(`${writer.pencil.length}`)},
+        eraser: ${colors.red(`${writer.pencil.eraser} [-5]`)}
     },
-    paper = "${writer.paper}"
-`, `
-
----------------------------- ERASING TEXT ----------------------------
+    ${colors.bold("paper")} = "${colors.red(`${writer.paper}`)}"
 
 `)
+
+    console.log(colors.underline("Erasing Text"))
+
     writer.erase(string)
+
+    console.log(colors.italic("Current value of Stationery:"))
+
+    console.log(`    ${colors.bold("pencil")} = {
+        point: ${colors.grey(`${writer.pencil.point}`)},
+        length: ${colors.grey(`${writer.pencil.length}`)},
+        eraser: ${colors.red(`${writer.pencil.eraser} [-5]`)}
+    },
+    ${colors.bold("paper")} = "${colors.red(`${writer.paper}`)}"
+
+`)
+
     string = "Alien"
 
-    console.log(`*Current value of Stationery:`, `
-    pencil = {
-        point: ${writer.pencil.point},
-        length: ${writer.pencil.length},
-        eraser: ${writer.pencil.eraser} [- ERASED STRING]
-    },
-    paper = "${writer.paper}"
-`, `
+    console.log(colors.underline("Editing Text"))
 
----------------------------- EDITING TEXT ----------------------------
+    console.log(colors.italic("Text to be added:"))
 
-`, `
-*Text to be added:`, `
-    "${string}"
+    console.log(`    "${colors.green(`${string}`)}"
 `)
+
     writer.edit(string)
+
+    console.log(colors.italic("Current value of Stationery:"))
+
+    console.log(`    ${colors.bold("pencil")} = {
+        point: ${colors.red(`${writer.pencil.point} [-6]`)},
+        length: ${colors.grey(`${writer.pencil.length}`)},
+        eraser: ${colors.grey(`${writer.pencil.eraser}`)}
+    },
+    ${colors.bold("paper")} = "${colors.green(`${writer.paper}`)}"
+
+`)
+
     string = "Xenomorph"
 
-    console.log(`*Current value of Stationery:`, `
-    pencil = {
-        point: ${writer.pencil.point} [- POINT DEGREDATION],
-        length: ${writer.pencil.length},
-        eraser: ${writer.pencil.eraser}
-    },
-    paper = "${writer.paper}"
-`, `
+    console.log(colors.underline("Editing Text"))
 
----------------------------- EDITING TEXT ----------------------------
+    console.log(colors.italic("Text to be added:"))
 
-`, `
-*Text to be added:`, `
-    "${string}"
+    console.log(`    "${colors.green(`${string}`)}"
 `)
+
     writer.edit(string)
 
-    console.log(`*Final value of Stationery:`, `
-    pencil = {
-        point: ${writer.pencil.point} [- POINT DEGREDATION],
-        length: ${writer.pencil.length},
-        eraser: ${writer.pencil.eraser}
-    },
-    paper = "${writer.paper}"
-`, `
+    console.log(colors.italic("Final value of Stationery:"))
 
---------------------------- KATA COMPLETE ----------------------------
+    console.log(`    ${colors.bold("pencil")} = {
+        point: ${colors.red(`${writer.pencil.point} [-10]`)},
+        length: ${colors.grey(`${writer.pencil.length}`)},
+        eraser: ${colors.grey(`${writer.pencil.eraser}`)}
+    },
+    ${colors.bold("paper")} = "${colors.green(`${writer.paper}`)}
+
 `)
+
+    console.log(colors.bold("Kata Complete"))
 }
 // #region REVIEW REFACTORED
 // const write = (pencil, paper, text) => {
