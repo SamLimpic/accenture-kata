@@ -1,14 +1,13 @@
-class Stationery {
+class Journal {
     constructor(point = 50, length = 5, eraser = 25) {
-        this.paper = ""
         this.pencil = {
             point: point,
             pointMax: point,
             length: length,
             eraser: eraser
         }
+        this.paper = ""
     }
-
     getPaper() {
         return this.paper
     }
@@ -50,7 +49,8 @@ class Stationery {
             this.setPoint(0)
             return false
         }
-        return this.setPoint(newPoint)
+        this.setPoint(newPoint)
+        return true
     }
 
     getLength() {
@@ -70,4 +70,4 @@ class Stationery {
     }
 }
 
-module.exports = { Stationery }
+module.exports = { Journal }
