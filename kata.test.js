@@ -1,4 +1,18 @@
 const { Writer } = require('./classes/Writer.js')
+const { testKata } = require('./kata.js')
+
+
+const text = "This is Ripley"
+const pointMax = 50
+const lengthMax = 5
+const eraserMax = 25
+
+let writer = new Writer(pointMax, lengthMax, eraserMax)
+let point
+let length
+let eraser
+let pencil
+let paper
 
 const setPaper = (string) => {
     paper = writer.paper.setPaper(string)
@@ -11,28 +25,12 @@ const setPencil = (pointVal = pointMax, lengthVal = lengthMax, eraserVal = erase
     eraser = pencil.eraser = eraserVal
 }
 
-const text = "This is Ripley"
-const pointMax = 50
-const lengthMax = 5
-const eraserMax = 25
-
-let point
-let length
-let eraser
-let writer
-let pencil
-let paper
-
 // The main test suite run using the command "npm run test"
 describe(`
 Testing Kata`, () => {
     beforeAll(() => {
-        writer = new Writer(pointMax, lengthMax, eraserMax)
-        pencil = writer.pencil.getPencil()
-        paper = writer.paper.getPaper()
-        point = pencil.point
-        length = pencil.length
-        eraser = pencil.eraser
+        setPaper("")
+        setPencil()
     })
     describe(`
     Initial Variables`, () => {
@@ -43,14 +41,14 @@ Testing Kata`, () => {
             test("Pencil can be instantiated", () => {
                 expect(pencil.pointMax).toBeTruthy()
                 expect(pencil.point).toBeTruthy()
-                expect(pencil.eraser).toBeTruthy()
                 expect(pencil.length).toBeTruthy()
+                expect(pencil.eraser).toBeTruthy()
             })
             test("Pencil is assigned correct values", () => {
                 expect(pencil.pointMax).toBe(point)
                 expect(pencil.point).toBe(point)
-                expect(pencil.eraser).toBe(eraser)
                 expect(pencil.length).toBe(length)
+                expect(pencil.eraser).toBe(eraser)
             })
             test("Paper can be instantiated", () => {
                 expect(paper).toBe("")
@@ -246,6 +244,33 @@ Testing Kata`, () => {
             test("Edit replaces existing characters with '@' if length of String exceeds length of blank Text", () => {
                 string = "Xenomorph"
                 expect(writer.edit(string)).toBe("Here kitty, kitty, Xenom@r@@aow. Here Jonesy.")
+            })
+        })
+    })
+
+    describe(`
+    Test Kata`, () => {
+        beforeEach(() => {
+            writer = testKata()
+            pencil = writer.pencil.getPencil()
+            paper = writer.paper.getPaper()
+        })
+        describe("The Test Kata function returns the appropriate values of runKata()", () => {
+            test("Returns valid Writer object", () => {
+                expect(writer).toBeTruthy()
+            })
+            test("Returns appropriate Pencil Point value", () => {
+                expect(pencil.point).toBe(34)
+            })
+            test("Returns appropriate Pencil Length value", () => {
+                expect(pencil.length).toBe(4)
+            })
+            test("Returns appropriate Pencil Eraser value", () => {
+                expect(pencil.eraser).toBe(15)
+                expect(paper).toBe("Here kitty, Alien, Xenom@r@@aow. Here Jonesy.")
+            })
+            test("Returns appropriate Paper value", () => {
+                expect(paper).toBe("Here kitty, Alien, Xenom@r@@aow. Here Jonesy.")
             })
         })
     })

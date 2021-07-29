@@ -1,8 +1,8 @@
 const { Writer } = require('./classes/Writer.js')
 const colors = require('colors/safe')
 
-// An overview of the main Kata function, with the console.logs removed for readability
-function viewKata(point, length, eraser) {
+// The main Kata function used for testing, with the console.logs removed for readability
+const testKata = (point, length, eraser) => {
     let text = "This is Ripley... last survivor of the Nostromo... signing off."
     let string = "kitty"
     let writer = new Writer(point, length, eraser)
@@ -20,6 +20,8 @@ function viewKata(point, length, eraser) {
 
     string = "Xenomorph"
     writer.edit(string)
+
+    return writer
 }
 
 // The main Kata function run using the command "npm run kata" with console.logs describing the step-by-step process
@@ -211,12 +213,14 @@ ${colors.underline("Editing Text")}`)
         length: ${colors.grey(`${pencil.length}`)},
         eraser: ${colors.grey(`${pencil.eraser}`)}
     },
-    ${colors.bold("paper")} = "${colors.green(`${paper}`)}
+    ${colors.bold("paper")} = "${colors.green(`${paper}`)}"
 `)
 
     console.log(`
 ${colors.bold("Kata Complete")}`)
+
+    return writer
     // #endregion
 }
 
-module.exports = { runKata }
+module.exports = { runKata, testKata }
