@@ -52,17 +52,17 @@ Testing Kata`, () => {
                 expect(pencil.eraser).toBe(eraser)
                 expect(pencil.length).toBe(length)
             })
-            test("Text can be instantiated", () => {
-                expect(text).toBeTruthy()
-            })
-            test("Text is assigned correct value", () => {
-                expect(text).toBe(text)
-            })
             test("Paper can be instantiated", () => {
                 expect(paper).toBe("")
             })
             test("Paper is assigned correct value", () => {
                 expect(paper).toBe(paper)
+            })
+            test("Text can be instantiated", () => {
+                expect(text).toBeTruthy()
+            })
+            test("Text is assigned correct value", () => {
+                expect(text).toBe(text)
             })
         })
     })
