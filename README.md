@@ -4,14 +4,14 @@ I settled on this particular [Kata](https://github.com/PillarTechnology/kata-pen
 ## Setup
 To begin, after cloning down this repository, you'll want to run the following commands to properly view this Kata.
 
-### npm install
-This will install all required dependencies for this application:
-    *Jest* [For Running Tests]
-    *Run-Func* [For Running Main Function]
+**npm install**
+This will install all required dependencies for this application:\
+    *Jest* [For Running Tests]\
+    *Run-Func* [For Running Main Function]\
     *Colors* [For Console Statement Readability]
 
-### npm run kata
+**npm run kata**
 This will run the main Kata function, which includes cascading console statements that log the progress at each stage.
 
-### npm run test
+**npm run test**
 This will run the Jest Test Suite, which tests 30 use cases of the various kata functions, as well as a Test Kata function, which mimics the main Kata function, with the console statements removed for readability.
