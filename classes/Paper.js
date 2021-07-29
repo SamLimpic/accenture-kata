@@ -1,5 +1,6 @@
 class Paper {
     paper = ""
+
     getPaper() {
         return this.paper
     }

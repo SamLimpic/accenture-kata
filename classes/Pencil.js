@@ -1,31 +1,25 @@
 class Pencil {
     constructor(point = 50, length = 5, eraser = 25) {
-        this.pencil = {
-            point: point,
-            pointMax: point,
-            length: length,
-            eraser: eraser
-        }
-    }
-
-    getPencil() {
-        return this.pencil
+        this.point = point
+        this.pointMax = point
+        this.length = length
+        this.eraser = eraser
     }
 
     getPoint() {
-        return this.pencil.point
+        return this.point
     }
 
     getPointMax() {
-        return this.pencil.pointMax
+        return this.pointMax
     }
 
     getLength() {
-        return this.pencil.length
+        return this.length
     }
 
     getEraser() {
-        return this.pencil.eraser
+        return this.eraser
     }
 
     checkCasing(char) {
@@ -40,7 +34,7 @@ class Pencil {
     }
 
     setPoint(number) {
-        return this.pencil.point = number
+        return this.point = number
     }
 
     degradePoint(char) {
@@ -54,11 +48,11 @@ class Pencil {
     }
 
     degradeLength() {
-        return this.pencil.length--
+        return this.length--
     }
 
     degradeEraser() {
-        return this.pencil.eraser--
+        return this.eraser--
     }
 }
 

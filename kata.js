@@ -1,11 +1,15 @@
+const { Pencil } = require('./classes/Pencil.js')
+const { Paper } = require('./classes/Paper.js')
 const { Writer } = require('./classes/Writer.js')
 const colors = require('colors/safe')
 
 // The main Kata function used for testing, with the console.logs removed for readability
-const testKata = (point, length, eraser) => {
+const testKata = () => {
     let text = "This is Ripley... last survivor of the Nostromo... signing off."
     let string = "kitty"
-    let writer = new Writer(point, length, eraser)
+    let pencil = new Pencil()
+    let paper = new Paper()
+    let writer = new Writer(pencil, paper)
 
     writer.write(text)
 
@@ -25,40 +29,40 @@ const testKata = (point, length, eraser) => {
 }
 
 // The main Kata function run using the command "npm run kata" with console.logs describing the step-by-step process
-const runKata = (pointVal, lengthVal, eraserVal) => {
+const runKata = () => {
     let text = "This is Ripley... last survivor of the Nostromo... signing off."
     let string = "kitty"
-    let writer = new Writer(pointVal, lengthVal, eraserVal)
+    let pencil = new Pencil()
+    let paper = new Paper()
+    let writer = new Writer(pencil, paper)
 
     // #region Holding Variables to ensure concise console.logs
-    let pencil = writer.pencil.getPencil()
-    let paper = writer.paper.getPaper()
-    let point
-    let pointMod
-    let length
-    let lengthMod
-    let eraser
-    let eraserMod
+    let point = writer.pencil.getPoint()
+    let length = writer.pencil.getLength()
+    let eraser = writer.pencil.getEraser()
+    let oldPoint = point
+    let oldLength = length
+    let oldEraser = eraser
 
-    function getValues() {
+    function logValues() {
         paper = writer.paper.getPaper()
-        pencil = writer.pencil.getPencil()
-        point = pencil.point
-        length = pencil.length
-        eraser = pencil.eraser
+        point = writer.pencil.getPoint()
+        length = writer.pencil.getLength()
+        eraser = writer.pencil.getEraser()
     }
     //#endregion
 
     // #region Logs Initial Variables
+    logValues()
     console.log(`
 ${colors.underline("Running Kata")}`)
 
     console.log(colors.italic("Initial Variables:"))
 
     console.log(`    ${colors.bold("pencil")} = {
-        point: ${colors.grey(`${pencil.point}`)},
-        length: ${colors.grey(`${pencil.length}`)},
-        eraser: ${colors.grey(`${pencil.eraser}`)}
+        point: ${colors.grey(`${point}`)},
+        length: ${colors.grey(`${length}`)},
+        eraser: ${colors.grey(`${eraser}`)}
     },
     ${colors.bold("paper")} = "${colors.grey(`${paper}`)}"
 `)
@@ -67,42 +71,42 @@ ${colors.underline("Running Kata")}`)
 
     console.log(`    "${colors.grey(`${text}`)}"
 `)
-    pointMod = pencil.point
+    oldPoint = point
     // #endregion
 
     writer.write(text)
 
     // #region Logs Write Function
-    getValues()
+    logValues()
     console.log(`
 ${colors.underline("Writing Text")}`)
 
     console.log(colors.italic("Current Variables:"))
 
     console.log(`    ${colors.bold("pencil")} = {
-        point: ${colors.red(`${pencil.point} [${pencil.point - pointMod}]`)},
-        length: ${colors.grey(`${pencil.length}`)},
-        eraser: ${colors.grey(`${pencil.eraser}`)}
+        point: ${colors.red(`${point} [${point - oldPoint}]`)},
+        length: ${colors.grey(`${length}`)},
+        eraser: ${colors.grey(`${eraser}`)}
     },
     ${colors.bold("paper")} = "${colors.green(`${paper}`)}"
 `)
-    pointMod = pencil.point
-    lengthMod = pencil.length
+    oldPoint = point
+    oldLength = length
     //#endregion
 
     writer.sharpen()
 
     // #region Logs Sharpen Function
-    getValues()
+    logValues()
     console.log(`
 ${colors.underline("Sharpening Pencil")}`)
 
     console.log(colors.italic("Value of Sharpened Pencil:"))
 
     console.log(`    ${colors.bold("pencil")} = {
-        point: ${colors.green(`${pencil.point} [+${pencil.point + pointMod}]`)},
-        length: ${colors.red(`${pencil.length} [${pencil.length - lengthMod}]`)},
-        eraser: ${colors.grey(`${pencil.eraser}`)}
+        point: ${colors.green(`${point} [+${point + oldPoint}]`)},
+        length: ${colors.red(`${length} [${length - oldLength}]`)},
+        eraser: ${colors.grey(`${eraser}`)}
     }
 `)
     // #endregion
@@ -110,7 +114,7 @@ ${colors.underline("Sharpening Pencil")}`)
     writer.paper.setPaper("Here kitty, kitty, kitty. Meaow. Here Jonesy.")
 
     // #region Logs Erase Function
-    getValues()
+    logValues()
     console.log(`
 ${colors.underline("Erasing Text")}`)
 
@@ -123,39 +127,39 @@ ${colors.underline("Erasing Text")}`)
 
     console.log(`    "${colors.red(`${string}`)}"
 `)
-    eraserMod = pencil.eraser
+    oldEraser = eraser
     // #endregion
 
     writer.erase(string)
 
     // #region Logs Modified Variables
-    getValues()
+    logValues()
     console.log(colors.italic("Current Variables:"))
 
     console.log(`    ${colors.bold("pencil")} = {
-        point: ${colors.grey(`${pencil.point}`)},
-        length: ${colors.grey(`${pencil.length}`)},
-        eraser: ${colors.red(`${pencil.eraser} [${pencil.eraser - eraserMod}]`)}
+        point: ${colors.grey(`${point}`)},
+        length: ${colors.grey(`${length}`)},
+        eraser: ${colors.red(`${eraser} [${eraser - oldEraser}]`)}
     },
     ${colors.bold("paper")} = "${colors.red(`${paper}`)}"
 
 `)
-    eraserMod = pencil.eraser
+    oldEraser = eraser
     // #endregion
 
     writer.erase(string)
 
     // #region Logs Additional Erase Function
-    getValues()
+    logValues()
     console.log(`
 ${colors.underline("Erasing Text")}`)
 
     console.log(colors.italic("Current Variables:"))
 
     console.log(`    ${colors.bold("pencil")} = {
-        point: ${colors.grey(`${pencil.point}`)},
-        length: ${colors.grey(`${pencil.length}`)},
-        eraser: ${colors.red(`${pencil.eraser} [${pencil.eraser - eraserMod}]`)}
+        point: ${colors.grey(`${point}`)},
+        length: ${colors.grey(`${length}`)},
+        eraser: ${colors.red(`${eraser} [${eraser - oldEraser}]`)}
     },
     ${colors.bold("paper")} = "${colors.red(`${paper}`)}"
 `)
@@ -171,19 +175,19 @@ ${colors.underline("Editing Text")}`)
 
     console.log(`    "${colors.green(`${string}`)}"
 `)
-    pointMod = pencil.point
+    oldPoint = point
     // #endregion
 
     writer.edit(string)
 
     // #region Logs Modified Variables
-    getValues()
+    logValues()
     console.log(colors.italic("Current Variables:"))
 
     console.log(`    ${colors.bold("pencil")} = {
-        point: ${colors.red(`${pencil.point} [${pencil.point - pointMod}]`)},
-        length: ${colors.grey(`${pencil.length}`)},
-        eraser: ${colors.grey(`${pencil.eraser}`)}
+        point: ${colors.red(`${point} [${point - oldPoint}]`)},
+        length: ${colors.grey(`${length}`)},
+        eraser: ${colors.grey(`${eraser}`)}
     },
     ${colors.bold("paper")} = "${colors.green(`${paper}`)}"
 `)
@@ -199,19 +203,19 @@ ${colors.underline("Editing Text")}`)
 
     console.log(`    "${colors.green(`${string}`)}"
 `)
-    pointMod = pencil.point
+    oldPoint = point
     // #endregion
 
     writer.edit(string)
 
     // #region Logs Final variables
-    getValues()
+    logValues()
     console.log(colors.italic("Final Variables:"))
 
     console.log(`    ${colors.bold("pencil")} = {
-        point: ${colors.red(`${pencil.point} [${pencil.point - pointMod}]`)},
-        length: ${colors.grey(`${pencil.length}`)},
-        eraser: ${colors.grey(`${pencil.eraser}`)}
+        point: ${colors.red(`${point} [${point - oldPoint}]`)},
+        length: ${colors.grey(`${length}`)},
+        eraser: ${colors.grey(`${eraser}`)}
     },
     ${colors.bold("paper")} = "${colors.green(`${paper}`)}"
 `)

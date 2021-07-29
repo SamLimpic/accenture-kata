@@ -1,9 +1,7 @@
-const { Pencil } = require('./Pencil.js')
-const { Paper } = require('./Paper.js')
 class Writer {
-    constructor(point, length, eraser) {
-        this.pencil = new Pencil(point, length, eraser)
-        this.paper = new Paper()
+    constructor(pencil, paper) {
+        this.pencil = pencil
+        this.paper = paper
     }
 
     write(text) {
@@ -21,24 +19,25 @@ class Writer {
             this.pencil.setPoint(this.pencil.getPointMax())
             this.pencil.degradeLength()
         }
-        return this.pencil.getPencil()
+        return this.pencil
     }
 
     erase(word) {
         let paper = this.paper.getPaper()
+        let eraser = this.pencil.getEraser()
         let end = paper.lastIndexOf(word)
-        if (end > -1 && this.pencil.getEraser() > 0) {
+        if (end > -1 && eraser > 0) {
             end--
             let start = end + word.length
-            let erased = paper.split("")
+            let newPaper = paper.split("")
             for (let i = start; i > end; i--) {
                 if (this.pencil.getEraser() === 0) {
                     break
                 }
-                erased[i] = " "
+                newPaper[i] = " "
                 this.pencil.degradeEraser()
             }
-            this.paper.setPaper(erased.join(""))
+            this.paper.setPaper(newPaper.join(""))
         }
         return this.paper.getPaper()
     }
@@ -52,20 +51,20 @@ class Writer {
                 start++
             }
             let end = start + word.length
-            let edited = paper.split("")
+            let newPaper = paper.split("")
             let j = 0
             for (let i = start; i < end; i++) {
                 if (!this.pencil.degradePoint(word[j])) {
                     break
                 }
-                if (edited[i] === " ") {
-                    edited[i] = word[j]
+                if (newPaper[i] === " ") {
+                    newPaper[i] = word[j]
                 } else {
-                    edited[i] = "@"
+                    newPaper[i] = "@"
                 }
                 j++
             }
-            this.paper.setPaper(edited.join(""))
+            this.paper.setPaper(newPaper.join(""))
         }
         return this.paper.getPaper()
     }

@@ -1,3 +1,5 @@
+const { Pencil } = require('./classes/Pencil.js')
+const { Paper } = require('./classes/Paper.js')
 const { Writer } = require('./classes/Writer.js')
 const { testKata } = require('./kata.js')
 
@@ -7,30 +9,31 @@ const pointMax = 50
 const lengthMax = 5
 const eraserMax = 25
 
-let writer = new Writer(pointMax, lengthMax, eraserMax)
+let pencil
+let paper
+let writer
 let point
 let length
 let eraser
-let pencil
-let paper
 
-const setPaper = (string) => {
-    paper = writer.paper.setPaper(string)
-}
+// const setPaper = (string) => {
+//     paper = writer.paper.setPaper(string)
+// }
 
-const setPencil = (pointVal = pointMax, lengthVal = lengthMax, eraserVal = eraserMax) => {
-    pencil = writer.pencil.getPencil()
-    point = pencil.point = pointVal
-    length = pencil.length = lengthVal
-    eraser = pencil.eraser = eraserVal
-}
+// const setPencil = (pointVal = pointMax, lengthVal = lengthMax, eraserVal = eraserMax) => {
+//     pencil = writer.pencil.getPencil()
+//     point = pencil.point = pointVal
+//     length = pencil.length = lengthVal
+//     eraser = pencil.eraser = eraserVal
+// }
 
 // The main test suite run using the command "npm run test"
 describe(`
 Testing Kata`, () => {
-    beforeAll(() => {
-        setPaper("")
-        setPencil()
+    beforeEach(() => {
+        pencil = new Pencil(pointMax, lengthMax, eraserMax)
+        paper = new Paper()
+        writer = new Writer(pencil, paper)
     })
     describe(`
     Initial Variables`, () => {
@@ -39,22 +42,23 @@ Testing Kata`, () => {
                 expect(writer).toBeTruthy()
             })
             test("Pencil can be instantiated", () => {
-                expect(pencil.pointMax).toBeTruthy()
-                expect(pencil.point).toBeTruthy()
-                expect(pencil.length).toBeTruthy()
-                expect(pencil.eraser).toBeTruthy()
+                expect(writer.pencil).toBeTruthy()
+                expect(writer.pencil.pointMax).toBeTruthy()
+                expect(writer.pencil.point).toBeTruthy()
+                expect(writer.pencil.length).toBeTruthy()
+                expect(writer.pencil.eraser).toBeTruthy()
             })
             test("Pencil is assigned correct values", () => {
-                expect(pencil.pointMax).toBe(point)
-                expect(pencil.point).toBe(point)
-                expect(pencil.length).toBe(length)
-                expect(pencil.eraser).toBe(eraser)
+                expect(writer.pencil.pointMax).toBe(pointMax)
+                expect(writer.pencil.point).toBe(pointMax)
+                expect(writer.pencil.length).toBe(lengthMax)
+                expect(writer.pencil.eraser).toBe(eraserMax)
             })
             test("Paper can be instantiated", () => {
-                expect(paper).toBe("")
+                expect(writer.paper).toBeTruthy()
             })
             test("Paper is assigned correct value", () => {
-                expect(paper).toBe(paper)
+                expect(writer.paper.getPaper()).toBe("")
             })
             test("Text can be instantiated", () => {
                 expect(text).toBeTruthy()
@@ -90,51 +94,40 @@ Testing Kata`, () => {
 
     describe(`
     Write Function`, () => {
-        beforeEach(() => {
-            setPencil()
-            setPaper("")
-        })
         describe("Text is recorded according to Pencil Point value", () => {
             test("Text is recorded as empty Spaces if Point value is 0", () => {
-                point = 0
-                setPencil(point)
+                writer.pencil.point = 0
                 expect(writer.write(text)).toBe(" ".repeat(text.length))
                 expect(pencil.point).toBe(0)
             })
-            test("Text is completely recorded if final Point value is >= 0 and final length of Text is 0", () => {
-                point = 14
-                setPencil(point)
+            test("Text is completely recorded if final Point value is >= 0", () => {
+                writer.pencil.point = 14
                 expect(writer.write(text)).toBe(text)
                 expect(pencil.point).toBe(0)
             })
             test("Text is partially recorded if final Point value is 0 and final length of Text is > 0", () => {
-                point = 6
-                setPencil(point)
+                writer.pencil.point = 6
                 expect(writer.write(text)).toBe("This i        ")
                 expect(pencil.point).toBe(0)
             })
-            test("Character is not recorded if final Point value is < 2 and character is Uppercase", () => {
-                point = 8
-                setPencil(point)
-                expect(writer.write(text)).toBe("This is       ")
-            })
-            test("Point value is not degraded below 0 if final Point value is < 2 and character is Uppercase", () => {
-                point = 8
-                setPencil(point)
+            test("Character is recorded if final Point value is 0 and character is an empty Space", () => {
+                writer.pencil.point = 7
                 expect(writer.write(text)).toBe("This is       ")
                 expect(pencil.point).toBe(0)
             })
-            test("Character is recorded if final Point value is 0 and character is an empty Space", () => {
-                point = 7
-                setPencil(point)
+            test("Character is not recorded if final Point value is < 2 and character is Uppercase", () => {
+                writer.pencil.point = 8
+                expect(writer.write(text)).toBe("This is       ")
+            })
+            test("Point value is not degraded below 0 if final Point value is < 2 and character is Uppercase", () => {
+                writer.pencil.point = 8
                 expect(writer.write(text)).toBe("This is       ")
                 expect(pencil.point).toBe(0)
             })
             test("Text is added to existing Text on Paper if Point value remains > 0", () => {
                 let newText = "Ripley"
-                setPaper("This is ")
-                point = 7
-                setPencil(point)
+                writer.pencil.point = 7
+                writer.paper.setPaper("This is ")
                 expect(writer.write(newText)).toBe("This is Ripley")
                 expect(pencil.point).toBe(0)
             })
@@ -144,18 +137,17 @@ Testing Kata`, () => {
     describe(`
     Sharpen Function`, () => {
         beforeEach(() => {
-            setPencil()
+            length = writer.pencil.getLength()
         })
         describe("Sharpen returns Point to its Max value according to Length value", () => {
-            test("Pencil can be Sharpened if its Length is > 0", () => {
+            test("Pencil can be Sharpened if its Length value is > 0", () => {
                 writer.sharpen()
-                expect(pencil.point).toBe(pointMax)
-                expect(pencil.length).toBe(length - 1)
+                expect(writer.pencil.point).toBe(pointMax)
+                expect(writer.pencil.length).toBe(length - 1)
             })
-            test("Pencil cannot be Sharpened if its Length is 0", () => {
-                point = 0
-                length = 0
-                setPencil(point, length)
+            test("Pencil cannot be Sharpened if its Length value is 0", () => {
+                writer.pencil.point = 0
+                writer.pencil.length = 0
                 writer.sharpen()
                 expect(pencil.point).toBe(0)
                 expect(pencil.length).toBe(0)
@@ -178,11 +170,9 @@ Testing Kata`, () => {
     Erase Function`, () => {
         let newText = "Here kitty, kitty, kitty. Meaow. Here Jonesy."
         let string = "kitty"
-        point = 50
-        length = 5
         beforeEach(() => {
-            setPencil()
-            setPaper(newText)
+            writer.paper.setPaper(newText)
+            eraser = writer.pencil.eraser
         })
         describe("Erase removes the last instance of a String according to Eraser value", () => {
             test("Erase replaces last occurrence of String with empty Spaces", () => {
@@ -193,14 +183,12 @@ Testing Kata`, () => {
                 expect(pencil.eraser).toBe(eraser - string.length)
             })
             test("Erase replaces characters of String in reverse order until Eraser value is 0", () => {
-                eraser = 3
-                setPencil(point, length, eraser)
+                writer.pencil.eraser = 3
                 expect(writer.erase(string)).toBe("Here kitty, kitty, ki   . Meaow. Here Jonesy.")
                 expect(pencil.eraser).toBe(0)
             })
-            test("Erase does not remove String from Paper if Eraser value is 0", () => {
-                eraser = 0
-                setPencil(point, length, eraser)
+            test("Erase does not replace String if Eraser value is 0", () => {
+                writer.pencil.eraser = 0
                 expect(writer.erase(string)).toBe(newText)
                 expect(pencil.eraser).toBe(0)
             })
@@ -220,25 +208,23 @@ Testing Kata`, () => {
         let newText = "Here kitty, kitty,      . Meaow. Here Jonesy."
         let string = "Alien"
         beforeEach(() => {
-            setPencil()
-            setPaper(newText)
+            writer.paper.setPaper(newText)
         })
         describe("Edit replaces Erased Text with a new String according to Point value", () => {
             test("Edit replaces blank Text with new String", () => {
                 expect(writer.edit(string)).toBe("Here kitty, kitty, Alien. Meaow. Here Jonesy.")
             })
-            test("Point value degrades by 1 for every character replaced until Point value is 0", () => {
-                point = 5
-                setPencil(point)
+            test("Point value degrades appropriately for each character replaced until Point value is 0", () => {
+                writer.pencil.point = 5
                 expect(writer.edit(string)).toBe("Here kitty, kitty, Alie . Meaow. Here Jonesy.")
                 expect(pencil.point).toBe(0)
             })
             test("Edit replaces next occurrence of blank Text after multiple uses if Point value remains > 0", () => {
-                setPaper("Here      ,      ,      . Meaow. Here Jonesy.")
+                writer.erase("kitty")
+                writer.erase("kitty")
+                writer.erase("kitty")
                 expect(writer.edit(string)).toBe("Here Alien,      ,      . Meaow. Here Jonesy.")
-                setPaper("Here Alien,      ,      . Meaow. Here Jonesy.")
                 expect(writer.edit(string)).toBe("Here Alien, Alien,      . Meaow. Here Jonesy.")
-                setPaper("Here Alien, Alien,      . Meaow. Here Jonesy.")
                 expect(writer.edit(string)).toBe("Here Alien, Alien, Alien. Meaow. Here Jonesy.")
             })
             test("Edit replaces existing characters with '@' if length of String exceeds length of blank Text", () => {
@@ -252,24 +238,22 @@ Testing Kata`, () => {
     Test Kata`, () => {
         beforeEach(() => {
             writer = testKata()
-            pencil = writer.pencil.getPencil()
-            paper = writer.paper.getPaper()
         })
-        describe("The Test Kata function returns the appropriate values of runKata()", () => {
+        describe("The Test Kata function returns the correct final values of runKata()", () => {
             test("Returns valid Writer object", () => {
                 expect(writer).toBeTruthy()
             })
-            test("Returns appropriate Pencil Point value", () => {
-                expect(pencil.point).toBe(34)
+            test("Returns correct Pencil Point value", () => {
+                expect(writer.pencil.point).toBe(34)
             })
-            test("Returns appropriate Pencil Length value", () => {
-                expect(pencil.length).toBe(4)
+            test("Returns correct Pencil Length value", () => {
+                expect(writer.pencil.length).toBe(4)
             })
-            test("Returns appropriate Pencil Eraser value", () => {
-                expect(pencil.eraser).toBe(15)
+            test("Returns correct Pencil Eraser value", () => {
+                expect(writer.pencil.eraser).toBe(15)
             })
-            test("Returns appropriate Paper value", () => {
-                expect(paper).toBe("Here kitty, Alien, Xenom@r@@aow. Here Jonesy.")
+            test("Returns correct Paper value", () => {
+                expect(writer.paper.getPaper()).toBe("Here kitty, Alien, Xenom@r@@aow. Here Jonesy.")
             })
         })
     })
