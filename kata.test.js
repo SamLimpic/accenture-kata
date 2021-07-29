@@ -267,7 +267,6 @@ Testing Kata`, () => {
             })
             test("Returns appropriate Pencil Eraser value", () => {
                 expect(pencil.eraser).toBe(15)
-                expect(paper).toBe("Here kitty, Alien, Xenom@r@@aow. Here Jonesy.")
             })
             test("Returns appropriate Paper value", () => {
                 expect(paper).toBe("Here kitty, Alien, Xenom@r@@aow. Here Jonesy.")
