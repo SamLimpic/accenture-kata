@@ -124,7 +124,7 @@ Testing Kata`, () => {
                 expect(writer.write(text)).toBe("This is       ")
                 expect(pencil.point).toBe(0)
             })
-            test("Text is added to existing Text on Paper if Point value remains > 0", () => {
+            test("New Text is added to existing Text on Paper", () => {
                 let newText = "Ripley"
                 writer.pencil.point = 7
                 writer.paper.setPaper("This is ")
@@ -152,7 +152,7 @@ Testing Kata`, () => {
                 expect(pencil.point).toBe(0)
                 expect(pencil.length).toBe(0)
             })
-            test("Pencil can be Sharpened multiple times if its Length value remains > 0", () => {
+            test("Pencil can be Sharpened multiple times", () => {
                 writer.sharpen()
                 expect(pencil.point).toBe(pointMax)
                 expect(pencil.length).toBe(length - 1)
@@ -182,7 +182,7 @@ Testing Kata`, () => {
                 expect(writer.erase(string)).toBe("Here kitty, kitty,      . Meaow. Here Jonesy.")
                 expect(pencil.eraser).toBe(eraser - string.length)
             })
-            test("Erase replaces characters of String in reverse order until Eraser value is 0", () => {
+            test("Erase replaces characters of String in reverse order if Eraser value is > 0", () => {
                 writer.pencil.eraser = 3
                 expect(writer.erase(string)).toBe("Here kitty, kitty, ki   . Meaow. Here Jonesy.")
                 expect(pencil.eraser).toBe(0)
@@ -214,12 +214,12 @@ Testing Kata`, () => {
             test("Edit replaces blank Text with new String", () => {
                 expect(writer.edit(string)).toBe("Here kitty, kitty, Alien. Meaow. Here Jonesy.")
             })
-            test("Point value degrades appropriately for each character replaced until Point value is 0", () => {
+            test("Point value degrades for each space replaced until Point value is 0", () => {
                 writer.pencil.point = 5
                 expect(writer.edit(string)).toBe("Here kitty, kitty, Alie . Meaow. Here Jonesy.")
                 expect(pencil.point).toBe(0)
             })
-            test("Edit replaces next occurrence of blank Text after multiple uses if Point value remains > 0", () => {
+            test("Edit replaces next occurrence of blank Text after multiple uses", () => {
                 writer.erase("kitty")
                 writer.erase("kitty")
                 writer.erase("kitty")
@@ -227,7 +227,7 @@ Testing Kata`, () => {
                 expect(writer.edit(string)).toBe("Here Alien, Alien,      . Meaow. Here Jonesy.")
                 expect(writer.edit(string)).toBe("Here Alien, Alien, Alien. Meaow. Here Jonesy.")
             })
-            test("Edit replaces existing characters with '@' if length of String exceeds length of blank Text", () => {
+            test("Edit replaces existing characters with the @ symbol", () => {
                 string = "Xenomorph"
                 expect(writer.edit(string)).toBe("Here kitty, kitty, Xenom@r@@aow. Here Jonesy.")
             })
