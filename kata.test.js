@@ -1,14 +1,14 @@
-// const { Writer } = require('./Writer.js')
 const { Writer } = require('./classes/Writer.js')
 
 const setPaper = (string) => {
-    writer.journal.paper = string
+    paper = writer.paper.setPaper(string)
 }
 
 const setPencil = (pointVal = pointMax, lengthVal = lengthMax, eraserVal = eraserMax) => {
-    point = writer.journal.pencil.point = pointVal
-    length = writer.journal.pencil.length = lengthVal
-    eraser = writer.journal.pencil.eraser = eraserVal
+    pencil = writer.pencil.getPencil()
+    point = pencil.point = pointVal
+    length = pencil.length = lengthVal
+    eraser = pencil.eraser = eraserVal
 }
 
 const text = "This is Ripley"
@@ -20,17 +20,16 @@ let point
 let length
 let eraser
 let writer
-let journal
 let pencil
 let paper
 
+// The main test suite run using the command "npm run test"
 describe(`
 Testing Kata`, () => {
     beforeAll(() => {
         writer = new Writer(pointMax, lengthMax, eraserMax)
-        journal = writer.journal
-        pencil = journal.pencil
-        paper = journal.paper
+        pencil = writer.pencil.getPencil()
+        paper = writer.paper.getPaper()
         point = pencil.point
         length = pencil.length
         eraser = pencil.eraser
@@ -40,9 +39,6 @@ Testing Kata`, () => {
         describe("Variables can be instantiated", () => {
             test("Writer can be instantiated", () => {
                 expect(writer).toBeTruthy()
-            })
-            test("Journal can be instantiated", () => {
-                expect(journal).toBeTruthy()
             })
             test("Pencil can be instantiated", () => {
                 expect(pencil.pointMax).toBeTruthy()
@@ -63,6 +59,9 @@ Testing Kata`, () => {
                 expect(text).toBe(text)
             })
             test("Paper can be instantiated", () => {
+                expect(paper).toBe("")
+            })
+            test("Paper is assigned correct value", () => {
                 expect(paper).toBe(paper)
             })
         })
@@ -74,19 +73,19 @@ Testing Kata`, () => {
         describe("Pencil Point is degraded by correct value", () => {
             test("Spaces do not degrade Point value", () => {
                 char = " "
-                expect(journal.checkCasing(char)).toBe(0)
+                expect(writer.pencil.checkCasing(char)).toBe(0)
             })
             test("Non-Alphanumeric characters degrade Point value by 1", () => {
                 char = ","
-                expect(journal.checkCasing(char)).toBe(1)
+                expect(writer.pencil.checkCasing(char)).toBe(1)
             })
             test("Lower Case letters degrade Point value by 1", () => {
                 char = "c"
-                expect(journal.checkCasing(char)).toBe(1)
+                expect(writer.pencil.checkCasing(char)).toBe(1)
             })
             test("Upper Case letters degrade Point value by 2", () => {
                 char = "C"
-                expect(journal.checkCasing(char)).toBe(2)
+                expect(writer.pencil.checkCasing(char)).toBe(2)
             })
         })
     })

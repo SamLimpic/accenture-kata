@@ -1,49 +1,51 @@
-const { Journal } = require('./Journal.js')
+const { Pencil } = require('./Pencil.js')
+const { Paper } = require('./Paper.js')
 class Writer {
     constructor(point, length, eraser) {
-        this.journal = new Journal(point, length, eraser)
+        this.pencil = new Pencil(point, length, eraser)
+        this.paper = new Paper()
     }
 
     write(text) {
         text.split("").forEach(char => {
-            if (!this.journal.degradePoint(char)) {
+            if (!this.pencil.degradePoint(char)) {
                 char = " "
             }
-            this.journal.addToPaper(char)
+            this.paper.addToPaper(char)
         })
-        return this.journal.paper
+        return this.paper.getPaper()
     }
 
     sharpen() {
-        if (this.journal.getLength() > 0) {
-            this.journal.setPoint(this.journal.getPointMax())
-            this.journal.degradeLength()
+        if (this.pencil.getLength() > 0) {
+            this.pencil.setPoint(this.pencil.getPointMax())
+            this.pencil.degradeLength()
         }
-        return this.journal.pencil
+        return this.pencil.getPencil()
     }
 
     erase(word) {
-        let paper = this.journal.getPaper()
+        let paper = this.paper.getPaper()
         let end = paper.lastIndexOf(word)
-        if (end > -1 && this.journal.getEraser() > 0) {
+        if (end > -1 && this.pencil.getEraser() > 0) {
             end--
             let start = end + word.length
             let erased = paper.split("")
             for (let i = start; i > end; i--) {
-                if (this.journal.getEraser() === 0) {
+                if (this.pencil.getEraser() === 0) {
                     break
                 }
                 erased[i] = " "
-                this.journal.degradeEraser()
+                this.pencil.degradeEraser()
             }
-            this.journal.setPaper(erased.join(""))
+            this.paper.setPaper(erased.join(""))
         }
-        return this.journal.paper
+        return this.paper.getPaper()
     }
 
     edit(word) {
-        let paper = this.journal.getPaper()
-        let point = this.journal.getPoint()
+        let paper = this.paper.getPaper()
+        let point = this.pencil.getPoint()
         let start = paper.indexOf("  ")
         if (start > -1 && point > 0) {
             if (start !== 0) {
@@ -53,7 +55,7 @@ class Writer {
             let edited = paper.split("")
             let j = 0
             for (let i = start; i < end; i++) {
-                if (!this.journal.degradePoint(word[j])) {
+                if (!this.pencil.degradePoint(word[j])) {
                     break
                 }
                 if (edited[i] === " ") {
@@ -63,9 +65,9 @@ class Writer {
                 }
                 j++
             }
-            this.journal.setPaper(edited.join(""))
+            this.paper.setPaper(edited.join(""))
         }
-        return this.journal.paper
+        return this.paper.getPaper()
     }
 }
 

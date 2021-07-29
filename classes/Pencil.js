@@ -1,4 +1,4 @@
-class Journal {
+class Pencil {
     constructor(point = 50, length = 5, eraser = 25) {
         this.pencil = {
             point: point,
@@ -6,18 +6,26 @@ class Journal {
             length: length,
             eraser: eraser
         }
-        this.paper = ""
-    }
-    getPaper() {
-        return this.paper
     }
 
-    setPaper(text) {
-        return this.paper = text
+    getPencil() {
+        return this.pencil
     }
 
-    addToPaper(text) {
-        return this.paper += text
+    getPoint() {
+        return this.pencil.point
+    }
+
+    getPointMax() {
+        return this.pencil.pointMax
+    }
+
+    getLength() {
+        return this.pencil.length
+    }
+
+    getEraser() {
+        return this.pencil.eraser
     }
 
     checkCasing(char) {
@@ -29,14 +37,6 @@ class Journal {
             return 1
         }
         return 2
-    }
-
-    getPoint() {
-        return this.pencil.point
-    }
-
-    getPointMax() {
-        return this.pencil.pointMax
     }
 
     setPoint(number) {
@@ -53,16 +53,8 @@ class Journal {
         return true
     }
 
-    getLength() {
-        return this.pencil.length
-    }
-
     degradeLength() {
         return this.pencil.length--
-    }
-
-    getEraser() {
-        return this.pencil.eraser
     }
 
     degradeEraser() {
@@ -70,4 +62,4 @@ class Journal {
     }
 }
 
-module.exports = { Journal }
+module.exports = { Pencil }
