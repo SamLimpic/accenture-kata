@@ -5,6 +5,7 @@
   },
   "scripts": {
     "kata": "run-func kata.js runKata",
+    "mod": "run-func kata.js modKata",
     "test": "jest"
   },
   "dependencies": {
